@@ -1,18 +1,23 @@
+'''
+input : log-file
+output: print if device rebooted 
+'''
+
 import copy
 import re
 import datetime
-import copy
 import configuration as conf
-import re
+
 
 import matplotlib.dates as md
 import matplotlib.pyplot as plt
 from datetime import datetime
 import math
 import time
-import copy
+
 
 def uptime(fname):
+    #open and read lines from log-file
     infile=open(fname,"r")
     lines=infile.readlines()
     upout=open("uptime.txt","w+")
@@ -40,6 +45,8 @@ def uptime(fname):
         tmp.append(i[12:j-3])
 
     tmp3=[]
+    
+    #convert the sliced value of uptime into integer and reduce it into seconds
     for i in tmp:
         if "min" in i and ":" not in i and "day" not in i :
             m=i[0:2]
@@ -53,9 +60,10 @@ def uptime(fname):
             d=int(i[0])
             m,s=int(i[7:9]),int(i[10:12])
             tmp3.append(d*24*3600+m*3600+s*60 )
-    tmp2=copy.deepcopy(tmp3)
+    tmp2=copy.deepcopy(tmp3)  
     tmp2.sort()
     c=0
+    #compare if items in orginal list(containing seconds) to get number of restarts
     for i in range(1,len(tmp3)-1):
         if tmp3[i]<tmp3[i+1]:
            continue
